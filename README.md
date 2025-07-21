@@ -54,7 +54,7 @@ A comprehensive web-based platform for sharing academic materials including past
 ## Setup Instructions
 
 ### Quick Start
-1. Clone or download the project files
+1. git clone https://github.com/HHH880/academicHub.git
 2. Open `index.html` in a modern web browser
 3. The application will initialize automatically
 4. Register a new account to start using the platform
