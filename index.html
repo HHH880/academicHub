@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVOLUTION ACADEMIC RESOURCE HUB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading Academic Resource Hub...</p>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" id="close-auth-modal">&times;</span>
+            <div id="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="register">Register</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <h2>Welcome Back</h2>
+                <div class="form-group">
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form">
+                <h2>Join Our Community</h2>
+                <div class="form-group">
+                    <input type="text" id="register-name" placeholder="Full Name" required>
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="register-email" placeholder="Email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <select id="register-department" required>
+                        <option value="">Select Department</option>
+                    </select>
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="register-password" placeholder="Password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Academic Hub</span>
+                </div>
+                <nav class="nav-links">
+                    <button class="nav-btn active" data-view="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="nav-btn" data-view="browse">
+                        <i class="fas fa-folder-open"></i>
+                        <span>Browse</span>
+                    </button>
+                    <button class="nav-btn" data-view="upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Upload</span>
+                    </button>
+                    <button class="nav-btn" data-view="search">
+                        <i class="fas fa-search"></i>
+                        <span>Search</span>
+                    </button>
+                </nav>
+                <div class="user-menu">
+                    <div class="user-info">
+                        <span id="user-name">User</span>
+                        <button id="logout-btn" class="btn btn-secondary">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <section id="dashboard-view" class="view active">
+                <div class="dashboard-header">
+                    <h1>Welcome to Academic Resource Hub</h1>
+                    <p>Your gateway to shared academic knowledge</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-resources">0</h3>
+                            <p>Total Resources</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-users">0</h3>
+                            <p>Active Users</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-departments">0</h3>
+                            <p>Departments</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="my-uploads">0</h3>
+                            <p>My Uploads</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-section">
+                    <h2>Recent Uploads</h2>
+                    <div id="recent-resources" class="resource-grid">
+                        <!-- Recent resources will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Browse View -->
+            <section id="browse-view" class="view">
+                <div class="browse-header">
+                    <h1>Browse Resources</h1>
+                    <div class="breadcrumb" id="breadcrumb">
+                        <span class="breadcrumb-item active">All Departments</span>
+                    </div>
+                </div>
+                
+                <div class="browse-filters">
+                    <select id="dept-filter">
+                        <option value="">All Departments</option>
+                    </select>
+                    <select id="course-filter">
+                        <option value="">All Courses</option>
+                    </select>
+                    <select id="lecturer-filter">
+                        <option value="">All Lecturers</option>
+                    </select>
+                </div>
+
+                <div id="browse-content" class="browse-content">
+                    <!-- Content will be populated dynamically -->
+                </div>
+            </section>
+
+            <!-- Upload View -->
+            <section id="upload-view" class="view">
+                <div class="upload-header">
+                    <h1>Upload Resource</h1>
+                    <p>Share your academic materials with the community</p>
+                </div>
+
+                <form id="upload-form" class="upload-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="resource-title">Title</label>
+                            <input type="text" id="resource-title" placeholder="Enter resource title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="resource-type">Type</label>
+                            <select id="resource-type" required>
+                                <option value="">Select Type</option>
+                                <option value="exam">Past Exam</option>
+                                <option value="notes">Lecture Notes</option>
+                                <option value="assignment">Assignment</option>
+                                <option value="textbook">Textbook</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="resource-department">Department</label>
+                            <select id="resource-department" required>
+                                <option value="">Select Department</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="resource-course">Course</label>
+                            <select id="resource-course" required>
+                                <option value="">Select Course</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="resource-lecturer">Lecturer</label>
+                            <select id="resource-lecturer" required>
+                                <option value="">Select Lecturer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="resource-year">Academic Year</label>
+                            <select id="resource-year" required>
+                                <option value="">Select Year</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resource-description">Description</label>
+                        <textarea id="resource-description" placeholder="Brief description of the resource" rows="3"></textarea>
+                    </div>
+
+                    <div class="file-upload-area">
+                        <div class="file-drop-zone" id="file-drop-zone">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag and drop your file here or <span class="upload-link">click to browse</span></p>
+                            <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" hidden>
+                        </div>
+                        <div id="file-preview" class="file-preview hidden">
+                            <div class="file-info">
+                                <i class="fas fa-file"></i>
+                                <span id="file-name"></span>
+                                <span id="file-size"></span>
+                            </div>
+                            <button type="button" id="remove-file" class="btn btn-danger">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="upload-progress hidden" id="upload-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <span id="progress-text">0%</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-upload">
+                        <i class="fas fa-upload"></i>
+                        Upload Resource
+                    </button>
+                </form>
+            </section>
+
+            <!-- Search View -->
+            <section id="search-view" class="view">
+                <div class="search-header">
+                    <h1>Search Resources</h1>
+                    <p>Find exactly what you're looking for</p>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Search for resources, courses, lecturers...">
+                    <button id="search-btn" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="search-filters">
+                    <select id="search-dept-filter">
+                        <option value="">All Departments</option>
+                    </select>
+                    <select id="search-type-filter">
+                        <option value="">All Types</option>
+                        <option value="exam">Past Exams</option>
+                        <option value="notes">Lecture Notes</option>
+                        <option value="assignment">Assignments</option>
+                        <option value="textbook">Textbooks</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <select id="search-year-filter">
+                        <option value="">All Years</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                    </select>
+                </div>
+
+                <div id="search-results" class="search-results">
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>Enter a search term to find resources</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Resource View Modal -->
+    <div id="resource-modal" class="modal hidden">
+        <div class="modal-content resource-modal-content">
+            <span class="close-modal" id="close-resource-modal">&times;</span>
+            <div id="resource-details">
+                <!-- Resource details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
